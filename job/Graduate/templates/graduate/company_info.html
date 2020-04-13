@@ -1,0 +1,66 @@
+{% extends 'graduate/base.html' %}
+{% block title %}
+    公司信息页
+{% endblock %}
+{% block style %}
+    <style>
+        .point {
+            display: inline-block;
+            vertical-align: middle;
+            width: 2px;
+            height: 2px;
+            margin: 0 7px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, .7)
+        }
+
+        .fd {
+            float: left;
+            overflow: hidden;
+        }
+        .gs{
+            display: inline-block;
+            color:#dda20a;
+            margin: 0 5%;
+            width: 15%;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="margin:5% 10%;height:130px;background: #b7b9cc ">
+        <div style="width: 80%;height: 120px;margin: 5px 0;" class="fd">
+            <img src="/static/{{ company.c_photo }}" class="fd" style="height: 120px;width: 120px;border-radius: 8px">
+            <div style="margin-left: 5%" class="fd">
+                <p style="font-size: 30px;margin-bottom: 10px">{{ company.c_name }}</p>
+                <p style="font-size: 14px;margin: 10px 0;">{{ company.c_descript }}</p>
+                <p>{{ job.city.name }}<em class="point"></em>{{ company.c_staff }}<em class="point"></em>{{ company.c_type.type }}</p>
+            </div>
+        </div>
+    </div>
+    <!--信息页-->
+    <div style="margin: 0 10%">
+
+        <div>
+            <div>
+                <p style="font-size: 22px">{{ company.c_name }}</p>
+                <p>官网：{{ company.c_website }}</p>
+            </div>
+
+            <div>
+                <p>工商信息：</p>
+                <div>
+                    <p style="margin: 10px 0;width: 80%"><em class="gs">法人代表：</em><em>{{ company.c_legal }}</em></p>
+                <p style="margin: 10px 0;width: 80%"><em class="gs">成立时间：</em><em>{{ company.c_time }}</em></p>
+                <p style="margin: 10px 0;width: 80%"><em class="gs">注册地址：</em><em>{{ company.c_address }}</em></p>
+                    <p style="margin: 10px 0;width: 80%"><em class="gs">注册资本：</em><em>{{ company.c_money }}万元</em></p>
+                    <p style="margin: 10px 0;width: 80%"><em class="gs">经营状态：</em><em>{{ company.get_c_status_display }}</em></p>
+                    <p style="margin: 10px 0;width: 80%"><em class="gs">统一信用代码：</em><em>{{ company.c_code }}</em></p>
+                </div>
+
+                <p style="margin: 10px 0;width: 80%"><em class="gs">经营范围：</em>{{ company.c_scope }}
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

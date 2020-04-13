@@ -1,0 +1,58 @@
+{% extends "boss/base.html" %}
+{% block title %}
+    资历信息页
+{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered dataTable" style="text-align: center">
+            <thead style="font-size: 30px;font-weight: bold">
+            <tr>
+                <td colspan="5">资历信息</td>
+            </tr>
+            </thead>
+            <tr>
+                <td rowspan="3" style="width: 300px;">
+                    <img style="width: 300px;height:300px" src="/static/{{ user.photo }}" alt="">
+                </td>
+                <th style="vertical-align:middle">姓名</th>
+                <td style="vertical-align:middle"><input type="text" name="name" value="{{ user.name }}" disabled></td>
+                <th style="vertical-align:middle">在职信息</th>
+                <td style="text-align-last:center;vertical-align:middle"><select name="work_status" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block">
+                    <option value="0">---在职---</option>
+                    <option value="1">---离职---</option>
+                    <option value="2">---停职---</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <th style="vertical-align:middle">职称</th>
+                <td style="vertical-align:middle"><input type="text" name="professional_title" value="{{ user.professional_title }}"></td>
+
+                <th style="vertical-align:middle">工作经验</th>
+                <td style="vertical-align:middle">
+                    <textarea name="work_experience" placeholder="工作经验"
+                              class="form-control form-control-user">{{ user.work_experience }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2" style="vertical-align:middle">所属公司</th>
+                <td colspan="2" style="text-align-last:center;vertical-align:middle">
+                    <select name="company" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block">
+                        <option>---请选择公司---</option>
+                        {% for one in company %}
+                            <option value="{{ one.id }}">---{{ one.c_name }}---</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                <p><a href="/Boss/company">未找到，需要添加所属公司？请点击这里</a></p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    <input class="btn btn-primary " type="submit" value="完善资历信息">
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

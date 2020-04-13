@@ -1,0 +1,110 @@
+{% extends 'graduate/base.html' %}
+{% block title %}
+    首页
+{% endblock %}
+{% block style %}
+    <style>
+        .change {
+            display: none;
+            position: absolute;
+            top: 200px;
+            left: 400px;
+            padding: 20px;
+            border: 1px solid;
+            background-color: white;
+        }
+
+        .city {
+            float: left;
+            list-style-type: none;
+            width: 25%;
+        }
+
+        .city_list {
+            overflow: hidden;
+        }
+    </style>
+{% endblock %}
+
+{% block search %}
+
+    <p><span>{{ city_name }}</span>&nbsp&nbsp<a href="#oDiv"
+                                                onclick="document.getElementById('oDiv').style.display='block'"><span
+            style="font-size: 13px">[切换城市]</span></a></p>
+    <div id="oDiv" class="change">
+        <div>
+            <strong style="font-size: 18px">亲爱的用户您好：</strong>
+            <p></p>
+            <p style="font-size: 14px">在这里您可以切换城市来寻找Job</p>
+        </div>
+        <hr>
+        <p style="font-size: 14px">您可以切换到以下城市:</p>
+        <ul class="city_list">
+            {% for i in city %}
+                <li class="city"><a href="/Graduate/index/?ct_id={{ i.id }}" class="btn">{{ i.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <p style="font-size: 14px">其他城市待开通......</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for one in job %}
+            <li style="list-style: none;height: 120px">
+                <div style="background: #fff;width:80%;height: 110px;margin-left: 6%">
+                    <div style="display: inline-block;float:left;width: 40%;height: 75px;overflow: hidden;margin-right: 5%;padding-top: 3px;">
+                        <div style="padding-top: 5px">
+                            <a href="/Graduate/job_info/?j_id={{ one.id }}">
+                            <span style="width: 15%;padding-left: 3%;margin-right: 3%;font-size: 18px;">{{ one.job_name }}</span>
+                                </a>
+                            <span style="width: 5%;margin-right: 3%;">[&nbsp;{{ one.city.name }}&nbsp;]</span>
+                            <span style="width:11%;font-size: 12px;">发布于{{ one.time }}</span>
+                        </div>
+                        <div style="padding-top: 5px"><span
+                                style="padding-left: 3%;">{{ one.pay }}&nbsp;|&nbsp;{{ one.get_education_display }}</span>
+                        </div>
+                    </div>
+
+                    <div style="display: inline-block;float:left;width: 40%;height:75px;margin-left: 5%;overflow: hidden">
+                        <div style="padding-top: 5px">
+                            <a href="/Graduate/company_info/?job_id={{ one.id }}&c_id={{ one.j_company_id }}"><span>{{ one.j_company.c_name }}</span></a>
+                        </div>
+                        <div style="padding-top: 5px">
+                            <span style="font-size: 12px">{{ one.j_company.c_type.type }}&nbsp;|&nbsp;{{ one.j_company.get_c_staff_display }}</span>
+                        </div>
+                    </div>
+                    <div style="float:right;overflow: hidden;width: 10%;height:80px;padding-top: 3px">
+                        <img src="/static/{{ one.j_company.c_photo }}"
+                             style="height: 73px;width: 73px;border: 1px solid #f3f5fb;border-radius: 9px">
+                    </div>
+
+                    <div style="height: 30px;width:100%;line-height: 30px;background: #fdf3d8;float: left;overflow: hidden">
+                    <div style="height: 30px;width:100%;line-height: 30px;">
+                        {% for one in one.job_label.split %}
+                            {% if forloop.first %}
+                                <span style="font-size: 12px;height: 20px;line-height:20px;margin: 5px 15px;border: 1px solid #169b6b;
+        border-radius: 8px;display: inline-block;color: #b7b9cc;padding-left: 8px;padding-right: 8px">
+            {{ one | slice:"2:-2" }}</span>
+                            {% elif forloop.last %}
+                                <span style="font-size: 12px;height: 20px;line-height:20px;margin: 5px 15px;border: 1px solid #169b6b;
+        border-radius: 8px;display: inline-block;color: #b7b9cc;padding-left: 8px;padding-right: 8px">
+            {{ one | slice:"1:-2" }}</span>
+                            {% else %}
+                                <span style="font-size: 12px;height: 20px;line-height:20px;margin: 5px 15px;border: 1px solid #169b6b;
+        border-radius: 8px;display: inline-block;color: #b7b9cc;padding-left: 8px;padding-right: 8px">
+            {{ one | slice:"1:-2" }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block script %}
+    <script>
+    </script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "adm/base.html" %}
+{% block title %}
+    用户信息页面
+{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered dataTable" style="text-align: center">
+            <thead style="font-size: 30px;font-weight: bold">
+            <tr>
+                <td colspan="5">基本信息</td>
+            </tr>
+            </thead>
+            <tr>
+                <td rowspan="3" style="width: 300px;">
+                    <img style="width: 300px;height:300px" src="/static/{{ member.photo }}" alt="">
+                </td>
+                <th>邮箱</th>
+                <td><input type="text" name="email" value="{{ member.email }}" disabled></td>
+                <th>用户名</th>
+                <td><input type="text" name="name" value="{{ member.name }}" disabled></td>
+            </tr>
+            <tr>
+                <th>手机号</th>
+                <td><input type="text" name="phone" value="{{ member.phone }}" disabled></td>
+
+                <th>年龄</th>
+                <td><input type="text" name="age" value="{{ member.age }}" disabled></td>
+            </tr>
+            <tr>
+                <th>性别</th>
+                <td><input type="text" name="gender" value="{{ member.gender }}" disabled></td>
+                <th>地址</th>
+                <td><input type="text" name="address" value="{{ member.native }}" disabled></td>
+            </tr>
+            {% if member.type == "0" %}
+                <tr>
+                    <th colspan="2">修改密码</th>
+                    <td colspan="3"><input type="password" name="password"></td>
+                </tr>
+            {% elif member.type == "1" %}
+                <tr>
+                    <th colspan="2">所属公司</th>
+                    <td><input type="text" name="company" value="{{ member.b_company.c_name }}" disabled></td>
+                    <th>在职信息</th>
+                    <td><input type="text" name="work_status" value="{{ member.get_work_status_display }}" disabled>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">职称</th>
+                    <td><input type="text" name="professional_title" value="{{ member.professional_title }}" disabled>
+                    </td>
+                    <th>工作经验</th>
+                    <td><input type="text" name="work_experience" value="{{ member.work_experience }}" disabled></td>
+                </tr>
+                <tr>
+                    <th colspan="2">修改密码</th>
+                    <td colspan="3"><input type="password" name="password"></td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    <input class="btn btn-primary " type="submit" value="修改信息">
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

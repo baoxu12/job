@@ -1,0 +1,130 @@
+{% extends 'boss/base.html' %}
+{% block title %}
+    投递状态页
+{% endblock %}
+
+{% block content %}
+    <table class="table" style="text-align: center">
+        <thead>
+        <tr>
+            <th>公司</th>
+            <th>职位名</th>
+            <th>投递者</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for one in job_list %}
+
+            <tr>
+                <td style="vertical-align: middle">{{ one.j_name.j_company.c_name }}</td>
+                <td style="vertical-align: middle">{{ one.j_name.job_name }}</td>
+                <td style="vertical-align: middle">{{ one.h_name.name }}</td>
+                <td style="vertical-align: middle">{{ one.time }}</td>
+                <td style="vertical-align: middle">
+                    <a href="/static/{{ one.h_name.resume }}" class="btn btn-primary">查看简历</a>
+                    {% if one.send_status == 3 %}
+                        <button class="btn btn-success pass" p_id="{{ one.id }}">面试通过</button>
+                        <button class="btn btn-danger failed" failed_id="{{ one.id }}">面试未通过</button>
+                    {% endif %}
+                    {% if one.send_status == 6 %}
+                        <a href="/Boss/invate/?s_id={{ one.id }}&page={{ page }}">
+                            <button class="btn-success">发送录用通知</button>
+                        </a>
+                    {% endif %}
+
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!--分页paginator-->
+    <ul class="pagination" style="float: right;position: fixed;right: 80px;bottom: 80px">
+        {% if job_list.has_previous %}
+            <li class="paginate_button page-item previous">
+                <a href="/Boss/send_status/{{ status }}/{{ job_list.previous_page_number }}/" class="page-link">上一页</a>
+            </li>
+        {% endif %}
+        {% for p in page_range %}
+            {% if p == page %}
+                <li class="paginate_button page-item previous active">
+                    <a href="/Boss/send_status/{{ status }}/{{ p }}/" class="page-link">{{ p }}</a>
+                </li>
+            {% else %}
+                <li class="paginate_button page-item previous">
+                    <a href="/Boss/send_status/{{ status }}/{{ p }}/" class="page-link">{{ p }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if job_list.has_next %}
+            <li class="paginate_button page-item previous">
+                <a href="/Boss/send_status/{{ status }}/{{ job_list.next_page_number }}/" class="page-link">下一页</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block script %}
+    <script>
+        // --------------------------------------------面试通过后改变状态--------------------------------------
+        $(".pass").each(
+            function () {
+                $(this).click(
+                    function () {
+                        var p_id = $(this).attr("p_id");
+                        $.ajax(
+                            {
+                                url: "/Boss/operate/",
+                                type: "post",
+                                data: {
+                                    "p_id": p_id,
+                                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                                },
+                                success: function (data) {
+                                    alert(data["msg"]);
+                                    window.location.href = "/Boss/send_status/{{ status }}/{{ page }}";
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            }
+                        )
+
+                    }
+                )
+            }
+        );
+        // --------------------------------------------面试未通过后改变状态--------------------------------------
+        $(".failed").each(
+            function () {
+                $(this).click(
+                    function () {
+                        var failed_id = $(this).attr("failed_id");
+                        $.ajax(
+                            {
+                                url: "/Boss/operate/",
+                                type: "post",
+                                data: {
+                                    "failed_id": failed_id,
+                                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                                },
+                                success: function (data) {
+                                    alert(data["msg"]);
+                                    window.location.href = "/Boss/send_status/{{ status }}/{{ page }}";
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            }
+                        );
+
+                    }
+                )
+            }
+        );
+
+    </script>
+{% endblock %}

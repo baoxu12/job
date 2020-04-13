@@ -1,0 +1,87 @@
+{% extends 'graduate/base.html' %}
+{% block title %}
+    个人信息页(在线简历)
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <table class="table table-bordered dataTable" style="text-align: center">
+            <thead style="font-size: 30px;font-weight: bold"><tr><td colspan="5">基本信息</td></tr></thead>
+            <tr>
+                <td rowspan="3" style="width: 300px;">
+                    <img style="width: 300px;height:300px" src="/static/{{ user.photo }}" alt="">
+                    <input type="file" name="photo">
+                </td>
+                <th>邮箱</th>
+                <td><input type="text" name = "email" value="{{ user.email }}" disabled></td>
+                <th>用户名</th>
+                <td><input type="text" name = "name" value="{{ user.name }}"></td>
+            </tr>
+            <tr>
+                <th>手机号</th>
+                <td><input type="text" name = "phone" value="{{ user.phone }}"></td>
+
+                <th>年龄</th>
+                <td><input type="text" name = "age" value="{{ user.age }}"></td>
+            </tr>
+            <tr>
+                <th>性别</th>
+                <td><input type="text" name = "gender" value="{{ user.gender }}"></td>
+                <th>籍贯</th>
+                <td><input type="text" name = "address" value="{{ user.native }}"></td>
+            </tr>
+            <tr>
+                <th colspan="2">上传简历文件</th>
+                <td colspan="3"><input type="file" name="resume" style="width: auto;height: auto">{{ user.resume }}</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    <input class = "btn btn-primary " type="submit" value="完善基本信息">
+                </td>
+            </tr>
+        </table>
+    </form>>
+    {% if user.expect_job %}
+    <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <table class="table table-bordered dataTable" style="text-align: center">
+            <thead style="font-size: 30px;font-weight: bold"><tr><td colspan="4">求职意向</td></tr></thead>
+            <tr>
+                <th>意向岗位</th>
+                <td><input type="text" name = "job" value="{{ resume.expect_job }}"></td>
+                <th>意向城市</th>
+                <td><input type="text" name = "city" value="{{ resume.city }}"></td>
+            </tr>
+            <tr>
+                <th>期望薪资</th>
+                <td><input type="text" name = "salary" value="{{ resume.salary }}"></td>
+        </table>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">教育经历</p>
+        <div class="form-group" style="text-align: center">
+        <textarea name="education" placeholder="教育经历" class="form-control form-control-user">{{ resume.education }}</textarea>
+    </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">项目经历</p>
+        <div class="form-group" style="text-align: center">
+        <textarea name="project" placeholder="项目经历" class="form-control form-control-user">{{ resume.project }}</textarea>
+    </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">在校经历</p>
+        <div class="form-group" style="text-align: center">
+        <textarea name="school_experience" placeholder="在校经历" class="form-control form-control-user">{{ resume.school_experience }}</textarea>
+    </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">相关技能</p>
+        <div class="form-group" style="text-align: center">
+        <textarea name="skill" placeholder="相关技能" class="form-control form-control-user">{{ resume.skill }}</textarea>
+    </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">荣誉证书</p>
+        <div class="form-group" style="text-align: center">
+        <textarea name="honor" placeholder="荣誉证书" class="form-control form-control-user">{{ resume.honor }}</textarea>
+    </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">自我介绍</p>
+        <div class="form-group" style="text-align: center">
+        <textarea name="self_introduction" placeholder="自我介绍" class="form-control form-control-user">{{ resume.self_introduction }}</textarea>
+    </div>
+    </form>
+    {% endif %}
+
+{% endblock %}

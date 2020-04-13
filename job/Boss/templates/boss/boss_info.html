@@ -1,0 +1,70 @@
+{% extends "boss/base.html" %}
+{% block title %}
+    个人信息页
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered dataTable" style="text-align: center">
+            <thead style="font-size: 30px;font-weight: bold">
+            <tr>
+                <td colspan="5">基本信息</td>
+            </tr>
+            </thead>
+            <tr>
+                <td rowspan="3" style="width: 300px;">
+                    <img style="width: 300px;height:300px" src="/static/{{ user.photo }}" alt="">
+                    <input type="file" name="photo">
+                </td>
+                <th style="vertical-align: middle">邮箱</th>
+                <td style="vertical-align: middle"><input type="text" name="email" value="{{ user.email }}" readonly="readonly"></td>
+                <th style="vertical-align: middle">用户名</th>
+                <td style="vertical-align: middle"><input type="text" name="name" value="{{ user.name }}"></td>
+            </tr>
+            <tr>
+                <th style="vertical-align: middle">手机号</th>
+                <td style="vertical-align: middle"><input type="text" name="phone" value="{{ user.phone }}"></td>
+
+                <th style="vertical-align: middle">年龄</th>
+                <td style="vertical-align: middle"><input type="text" name="age" value="{{ user.age }}"></td>
+            </tr>
+            <tr>
+                <th style="vertical-align: middle">性别</th>
+                <td style="vertical-align: middle"><input type="text" name="gender" value="{{ user.gender }}"></td>
+                <th style="vertical-align: middle">地址</th>
+                <td style="vertical-align: middle"><input type="text" name="address" value="{{ user.address }}"></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    <input class="btn btn-primary " type="submit" value="完善基本信息">
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% if user.work_status or user.professional_title or user.work_experience %}
+        <table class="table table-bordered dataTable" style="text-align: center">
+            <thead>
+            <tr>
+                <td colspan="2" style="font-size: 30px;font-weight: bold">资历信息</td>
+            </tr>
+            </thead>
+            <tr>
+                <th>在职信息</th>
+                <td>{{ work_status }}</td>
+            </tr>
+            <tr>
+                <th>职称</th>
+                <td>{{ user.professional_title }}</td>
+            </tr>
+            <tr>
+                <th>工作经验</th>
+                <td>{{ user.work_experience }}</td>
+            </tr>
+            <tr>
+                <th>所属公司</th>
+                <td><a href="/Boss/company">{{ user.b_company.c_name }}</a></td>
+            </tr>
+        </table>
+    {% endif %}
+{% endblock %}

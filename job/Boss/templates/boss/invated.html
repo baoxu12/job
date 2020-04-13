@@ -1,0 +1,149 @@
+{% extends "boss/base.html" %}
+{% block title %}
+    面试邀请页面
+{% endblock %}
+
+{% block content %}
+{#    <form action="" method="post" enctype="multipart/form-data" style="text-align: center;margin: 10% 0">#}
+{#        {% csrf_token %}#}
+<div style="text-align: center; margin: 10% 0">
+    {% if i_id %}
+        <p>招聘公司：<input type="text" id="company_name" value="{{ company_name }}" readonly="readonly"
+                       style="text-align: center"></p>
+        <p>应聘职位：<input type="text" id="job_name" value="{{ job }}" readonly="readonly" style="text-align: center"></p>
+        <p>面试时间：<input type="datetime-local" id="time" placeholder="请输入面试时间" style="text-align: center"></p>
+        <p>面试地点：<input type="text" id="address" placeholder="请输入面试地点" style="text-align: center"></p>
+        <p>应聘者：<input type="text" id="recv_name" value="{{ recv_name }}" readonly="readonly" style="text-align: center">
+        </p>
+        <p>应聘者邮箱：<input type="text" id="recv_email" value="{{ recv_email }}" readonly="readonly"
+                        style="text-align: center">
+        </p>
+        <button class="btn btn-success invate" invate_id="{{ i_id }}">面试邀请</button>
+    {% elif f_id %}
+        <p>招聘公司：<input type="text" id="company_name" value="{{ company_name }}" readonly="readonly"
+                       style="text-align: center"></p>
+        <p>应聘职位：<input type="text" id="job_name" value="{{ job }}" readonly="readonly" style="text-align: center"></p>
+        <p>不合适理由：<input type="text" id="refuse" placeholder="请输入不合适理由" style="text-align: center"></p>
+        <p>应聘者：<input type="text" id="recv_name" value="{{ recv_name }}" readonly="readonly" style="text-align: center">
+        </p>
+        <p>应聘者邮箱：<input type="text" id="recv_email" value="{{ recv_email }}" readonly="readonly"
+                        style="text-align: center"></p>
+        <button class="btn btn-danger fail" fail_id="{{ f_id }}">不合适邮件发送</button>
+    {% elif s_id %}
+    <p>招聘公司：<input type="text" id="company_name" value="{{ company_name }}" readonly="readonly"
+                   style="text-align: center"></p>
+    <p>应聘职位：<input type="text" id="job_name" value="{{ job }}" readonly="readonly" style="text-align: center"></p>
+    <p>报到时间：<input type="datetime-local" id="time" style="text-align: center"></p>
+    <p>地点：<input type="text" id="address" placeholder="请输入地点" style="text-align: center"></p>
+    <p>应聘者：<input type="text" id="recv_name" value="{{ recv_name }}" readonly="readonly" style="text-align: center">
+    </p>
+    <p>应聘者邮箱：<input type="text" id="recv_email" value="{{ recv_email }}" readonly="readonly"
+                    style="text-align: center"></p>
+    <button class="btn btn-danger send" send_id="{{ s_id }}">发送录用通知</button>
+    {% endif %}
+
+
+</div>
+
+
+{#    </form>#}
+{% endblock %}
+
+{% block script %}
+    <script>
+        // --------------------------------------------邀请面试后改变状态--------------------------------------
+        $(".invate").each(
+            function () {
+                $(this).click(
+                    function () {
+                        var invate_id = $(this).attr("invate_id");
+                        var time = $("#time").val();
+                        var address = $("#address").val();
+                        $.ajax(
+                            {
+                                url: "/Boss/operate/",
+                                type: "post",
+                                data: {
+                                    "invate_id": invate_id,
+                                    "time": time,
+                                    "address": address,
+                                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                                },
+                                success: function (data) {
+                                    alert(data["msg"]);
+                                    window.location.href = "/Boss/index/{{ page }}";
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            }
+                        )
+
+                    }
+                )
+            }
+        );
+        // --------------------------------------------不合适后改变状态--------------------------------------
+        $(".fail").each(
+            function () {
+                $(this).click(
+                    function () {
+                        var fail_id = $(this).attr("fail_id");
+                        var refuse = $("#refuse").val();
+                        $.ajax(
+                            {
+                                url: "/Boss/operate/",
+                                type: "post",
+                                data: {
+                                    "fail_id": fail_id,
+                                    "refuse": refuse,
+                                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                                },
+                                success: function (data) {
+                                    alert(data["msg"]);
+                                    window.location.href = "/Boss/index/{{ page }}";
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            }
+                        );
+
+                    }
+                )
+            }
+        );
+          // --------------------------------------------录用通知发送后改变状态--------------------------------------
+        $(".send").each(
+            function () {
+                $(this).click(
+                    function () {
+                        var send_id = $(this).attr("send_id");
+                        var time = $("#time").val();
+                        var address = $("#address").val();
+                        $.ajax(
+                            {
+                                url: "/Boss/operate/",
+                                type: "post",
+                                data: {
+                                    "send_id": send_id,
+                                    "time": time,
+                                    "address": address,
+                                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                                },
+                                success: function (data) {
+                                    alert(data["msg"]);
+                                    {#window.location.href = "/Boss/index/{{ page }}";#}
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            }
+                        );
+
+                    }
+                )
+            }
+        );
+    </script>
+{% endblock %}

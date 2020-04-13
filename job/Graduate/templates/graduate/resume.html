@@ -1,0 +1,57 @@
+{% extends 'graduate/base.html' %}
+{% block title %}
+    在线简历填写
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" style="text-align: center">
+        {% csrf_token %}
+        <table class="table table-bordered dataTable">
+            <thead style="font-size: 30px;font-weight: bold">
+            <tr>
+                <td colspan="4">求职意向</td>
+            </tr>
+            </thead>
+            <tr>
+                <th>意向岗位</th>
+                <td><input type="text" name="job" value="{{ resume.expect_job }}"></td>
+                <th>意向城市</th>
+                <td><input type="text" name="city" value="{{ resume.city }}"></td>
+            </tr>
+            <tr>
+                <th>期望薪资</th>
+                <td><input type="text" name="salary" value="{{ resume.salary }}"></td>
+        </table>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">教育经历</p>
+        <div class="form-group" style="text-align: center">
+            <textarea name="education" placeholder="教育经历"
+                      class="form-control form-control-user">{{ resume.education }}</textarea>
+        </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">项目经历</p>
+        <div class="form-group" style="text-align: center">
+            <textarea name="project" placeholder="项目经历"
+                      class="form-control form-control-user">{{ resume.project }}</textarea>
+        </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">在校经历</p>
+        <div class="form-group" style="text-align: center">
+            <textarea name="school_experience" placeholder="在校经历"
+                      class="form-control form-control-user">{{ resume.school_experience }}</textarea>
+        </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">相关技能</p>
+        <div class="form-group" style="text-align: center">
+            <textarea name="skill" placeholder="相关技能"
+                      class="form-control form-control-user">{{ resume.skill }}</textarea>
+        </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">荣誉证书</p>
+        <div class="form-group" style="text-align: center">
+            <textarea name="honor" placeholder="荣誉证书"
+                      class="form-control form-control-user">{{ resume.honor }}</textarea>
+        </div>
+        <p style="font-size: 30px;font-weight: bold;text-align: center">自我介绍</p>
+        <div class="form-group" style="text-align: center">
+            <textarea name="self_introduction" placeholder="自我介绍"
+                      class="form-control form-control-user">{{ resume.self_introduction }}</textarea>
+        </div>
+        <input class="btn btn-primary " type="submit" value="完善信息">
+    </form>
+{% endblock %}

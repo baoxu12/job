@@ -1,0 +1,249 @@
+{% extends "boss/base.html" %}
+{% block title %}
+    公司页
+{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if user.b_company %}
+            <p style="font-size: 30px;font-weight: bold;text-align: center">已经添加公司信息，您可以在下面完善</p>
+            <table class="table table-bordered dataTable" style="text-align: center">
+                <thead style="font-size: 28px;font-weight: bold">
+                <tr>
+                    <td colspan="6">公司信息</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td colspan="2" rowspan="3" style="width: 300px;">
+                        <img style="width: 300px;height:300px" src="/static/{{ user.b_company.c_photo }}" alt="">
+                    </td>
+                    <th>企业邮箱</th>
+                    <td><input type="text" name="email" value="{{ user.b_company.c_email }}"></td>
+                    <th>企业名</th>
+                    <td>
+                        <input type="text" name="name" value="{{ user.b_company.c_name }}" readonly="readonly">
+                    </td>
+                </tr>
+                <tr>
+                    <th>企业电话</th>
+                    <td><input type="text" name="phone" value="{{ user.b_company.phone_number }}"></td>
+
+                    <th>统一信用代码</th>
+                    <td><input type="text" name="code" value="{{ user.b_company.c_code }}" readonly="readonly"></td>
+                </tr>
+                <tr>
+                    <th>企业法人</th>
+                    <td><input type="text" name="legal" value="{{ user.b_company.c_legal }}"></td>
+
+                    <th>注册资本</th>
+                    <td><input type="text" name="money" value="{{ user.b_company.c_money }}" readonly="readonly">万元</td>
+                </tr>
+                <tr>
+                    <th colspan="2">经营状态</th>
+                    <td style="text-align-last:center">
+                        <select name="status" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block"
+                                id="c_status">
+                            <option value="0">---存续(开业、正常、登记)---</option>
+                            <option value="1">---在业---</option>
+                            <option value="2">---吊销---</option>
+                            <option value="3">---注销---</option>
+                            <option value="4">---迁出---</option>
+                            <option value="5">---迁入---</option>
+                            <option value="6">---停业---</option>
+                            <option value="7">---清算---</option>
+                        </select>
+                    </td>
+
+                    <th colspan="2">成立时间</th>
+                    <td>
+                        <input type="text" name="time" value="{{ user.b_company.c_time }}" readonly="readonly">
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">企业类别</th>
+                    <td style="text-align-last:center">
+                        <input type="text" name="type" value="{{ user.b_company.c_type.type }}" readonly="readonly">
+                    </td>
+
+                    <th colspan="2">公司职员数</th>
+                    <td style="text-align-last:center">
+                        <select name="staff" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block"
+                                id="staff">
+                            <option value="0">---少于10人---</option>
+                            <option value="1">---10-49人---</option>
+                            <option value="2">---50-99人---</option>
+                            <option value="3">---100-499人---</option>
+                            <option value="4">---500-999人---</option>
+                            <option value="5">---1000-9999人---</option>
+                            <option value="6">---10000人以上---</option>
+                        </select>
+                </tr>
+
+                <tr>
+                    <th colspan="2">注册地址</th>
+                    <td><textarea name="address" placeholder="注册地址"
+                                  class="form-control form-control-user" readonly="readonly">{{ user.b_company.c_address }}</textarea></td>
+
+                    <th colspan="2">经营范围</th>
+                    <td><textarea name="scope" placeholder="经营范围"
+                                  class="form-control form-control-user">{{ user.b_company.c_scope }}</textarea></td>
+                </tr>
+                <tr>
+                    <th colspan="2">公司官网</th>
+                    <td><textarea name="website" placeholder="公司官网"
+                                  class="form-control form-control-user">{{ user.b_company.c_website }}</textarea></td>
+
+                    <th colspan="2">公司简介</th>
+                    <td><textarea name="descript" placeholder="公司简介"
+                                  class="form-control form-control-user">{{ user.b_company.c_descript }}</textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: center">
+                        <input class="btn btn-primary " type="submit" value="完善公司信息">
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            <p style="font-size: 30px;font-weight: bold;text-align: center">未添加公司信息，您可以在此添加</p>
+            <table class="table table-bordered dataTable" style="text-align: center">
+                <thead style="font-size: 28px;font-weight: bold">
+                <tr>
+                    <td colspan="6">公司信息</td>
+                </tr>
+                </thead>
+                <tr>
+                    <td colspan="2" rowspan="3" style="width: 300px;">
+                        <img style="width: 300px;height:300px" src="/static/{{ company.c_photo }}" alt="">
+                        <input type="file" name="photo">
+                    </td>
+                    <th>企业邮箱</th>
+                    <td><input type="text" name="email" value="{{ company.c_email }}"></td>
+                    <th>企业名</th>
+                    <td>
+                        <input type="text" name="name" value="{{ company.c_name }}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>企业电话</th>
+                    <td><input type="text" name="phone" value="{{ company.phone_number }}"></td>
+
+                    <th>统一信用代码</th>
+                    <td><input type="text" name="code" value="{{ company.c_code }}"></td>
+                </tr>
+                <tr>
+                    <th>企业法人</th>
+                    <td><input type="text" name="legal" value="{{ company.c_legal }}"></td>
+
+                    <th>注册资本</th>
+                    <td><input type="text" name="money" value="{{ company.c_money }}" placeholder="单位：万元"></td>
+                </tr>
+                <tr>
+                    <th colspan="2">经营状态</th>
+                    <td style="text-align-last:center">
+                        <select name="status" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block">
+                            <option value="0">---存续(开业、正常、登记)---</option>
+                            <option value="1">---在业---</option>
+                            <option value="2">---吊销---</option>
+                            <option value="3">---注销---</option>
+                            <option value="4">---迁出---</option>
+                            <option value="5">---迁入---</option>
+                            <option value="6">---停业---</option>
+                            <option value="7">---清算---</option>
+                        </select>
+                    </td>
+
+                    <th colspan="2">成立时间</th>
+                    <td><input type="date" name="time" value="{{ company.c_time }}"></td>
+                </tr>
+                <tr>
+                    <th colspan="2">企业类别</th>
+                    <td style="text-align-last:center">
+                        <select name="data_type" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block">
+                            <option>---请选择公司所属类型---</option>
+                            {% for i in c_type %}
+                                <option value="{{ i.id }}">---{{ i.type }}---</option>
+                            {% endfor %}
+                        </select>
+                        <p>若贵公司所属行业不在此内，可在下面进行添加：</p>
+                        <input type="text" name="type" value="" placeholder="请输入类别">
+                    </td>
+
+                    <th colspan="2">公司职员数</th>
+                    <td style="text-align-last:center">
+                        <select name="staff" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block"
+                                >
+                            <option value="0">---少于10人---</option>
+                            <option value="1">---10-49人---</option>
+                            <option value="2">---50-99人---</option>
+                            <option value="3">---100-499人---</option>
+                            <option value="4">---500-999人---</option>
+                            <option value="5">---1000-9999人---</option>
+                            <option value="6">---10000人以上---</option>
+                        </select>
+                </tr>
+                <tr>
+                    <th colspan="2">注册地址</th>
+                    <td><textarea name="address" placeholder="注册地址"
+                                  class="form-control form-control-user">{{ company.c_address }}</textarea></td>
+
+                    <th colspan="2">经营范围</th>
+                    <td><textarea name="scope" placeholder="经营范围"
+                                  class="form-control form-control-user">{{ company.c_scope }}</textarea></td>
+                </tr>
+                <tr>
+                    <th colspan="2">公司官网</th>
+                    <td><textarea name="website" placeholder="公司官网"
+                                  class="form-control form-control-user">{{ company.c_website }}</textarea></td>
+
+                    <th colspan="2">公司简介</th>
+                    <td><textarea name="descript" placeholder="公司简介"
+                                  class="form-control form-control-user">{{ company.c_descript }}</textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: center">
+                        <input class="btn btn-primary " type="submit" value="添加公司信息">
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script>
+    //-------------经营状态------------
+        var inform = document.getElementById("c_status");
+
+        (function () {
+                for (var i = 0; i <inform.options.length; i++) {
+                    if (parseInt(inform.options[i].value) === {{ user.b_company.c_status }}) {
+                        inform.options[i].selected = true;
+                    }
+                }
+            }
+        )();
+    //-------------职员人数------------
+        var staff_num = document.getElementById("staff");
+
+        (function () {
+                for (var i = 0; i <staff_num.options.length; i++) {
+                    if (parseInt(staff_num.options[i].value) === {{ user.b_company.c_staff }}) {
+                        staff_num.options[i].selected = true;
+                    }
+                }
+            }
+        )();
+    //-------------公司类别------------
+        var type = document.getElementById("data_type");
+
+        (function () {
+                for (var i = 0; i <type.options.length; i++) {
+                    if (parseInt(type.options[i].value) === {{ user.b_company.c_type.type }}) {
+                        type.options[i].selected = true;
+                    }
+                }
+            }
+        )()
+    </script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "adm/base.html" %}
+{% block title %}
+    职位详情
+{% endblock %}
+{% block content %}
+    <table class="table table-bordered dataTable" style="text-align: center;border:0">
+        <thead style="font-size: 30px;font-weight: bold">
+        <tr>
+            <td colspan="6">职位信息</td>
+        </tr>
+        </thead>
+        <tr>
+            <th>职位名称</th>
+            <td><input type="text" name="job_name" value="{{ job.job_name }}" disabled></td>
+            <th>工作地点</th>
+            <td><input type="text" name="job_address" value="{{ job.job_address }}" disabled></td>
+            <th>学历</th>
+            <td><input type="text" name="education" value="{{ job.get_education_display }}" disabled></td>
+        </tr>
+        <tr>
+            <th>薪资</th>
+            <td><input type="text" name="pay" value="{{ job.pay }}" disabled></td>
+            <th>岗位详情</th>
+            <td><textarea name="job_descript" disabled
+                          class="form-control form-control-user">{{ job.job_descript }}</textarea></td>
+            <th>任职要求</th>
+            <td><textarea name="demand" disabled
+                          class="form-control form-control-user">{{ job.demand }}</textarea></td>
+        </tr>
+        <tr>
+            <th>工作时间</th>
+            <td><textarea name="work_time" disabled
+                          class="form-control form-control-user">{{ job.work_time }}</textarea></td>
+            <th>标签</th>
+            <td><textarea name="job_label" disabled
+                          class="form-control form-control-user">{{ job.job_label }}</textarea></td>
+            <th>城市</th>
+            <td>
+                <input type="text" name="city" value="{{ job.city.name }}" disabled>
+            </td>
+        </tr>
+        <tr>
+            {% if job.check_status < 2 %}
+                <td colspan="2">
+                    <button class="btn btn-success publish" fb_id="{{ job.id }}">发布职位</button>
+                </td>
+                <td colspan="2">
+                    <button class="btn btn-google refuse" bh_id="{{ job.id }}" disabled>驳回请求</button>
+                </td>
+                <td colspan="2">
+                    <button class="btn btn-danger delete" sc_id="{{ job.id }}">删除职位信息</button>
+                </td>
+            {% endif %}
+            {% if job.check_status == 2 or job.check_status == 3 %}
+                <td colspan="6">
+                    <button class="btn btn-danger delete" sc_id="{{ job.id }}">删除职位信息</button>
+                </td>
+            {% endif %}
+            {% if job.check_status == 4 %}
+                <td colspan="6" style="font-size: 20px;color: red;text-align: center">该职位信息已被删除</td>
+            {% endif %}
+        </tr>
+    </table>
+{% endblock %}
+
+{% block script %}
+    <script>
+        //-----------------发布------------------
+        $(".publish").click(
+            function () {
+                var fb_id = $(".publish").attr("fb_id");
+                $.ajax(
+                    {
+                        url: "/Admins/check_operation/",
+                        type: "post",
+                        data: {
+                            "fb_id": fb_id,
+                            "csrfmiddlewaretoken": '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            alert(data["msg"]);
+
+                            window.location.reload();  // 重新加载
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    }
+                )
+            }
+        );
+
+        //-----------------驳回------------------
+        $(".refuse").click(
+            function () {
+                var bh_id = $(".refuse").attr("bh_id");
+                $.ajax(
+                    {
+                        url: "/Admins/check_operation/",
+                        type: "post",
+                        data: {
+                            "bh_id": bh_id,
+                            "csrfmiddlewaretoken": '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            alert(data["msg"]);
+
+                            window.location.reload();  // 重新加载
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    }
+                )
+            }
+        );
+
+        //-----------------删除------------------
+        $(".delete").click(
+            function () {
+                var sc_id = $(".delete").attr("sc_id");
+                $.ajax(
+                    {
+                        url: "/Admins/check_operation/",
+                        type: "post",
+                        data: {
+                            "sc_id": sc_id,
+                            "csrfmiddlewaretoken": '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            alert(data["msg"]);
+
+                            window.location.reload();  // 重新加载
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    }
+                )
+            }
+        );
+    </script>
+{% endblock %}

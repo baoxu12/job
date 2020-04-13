@@ -1,0 +1,64 @@
+{% extends "boss/base.html" %}
+{% block title %}
+    职位发布页
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered dataTable" style="text-align: center;border:0">
+            <thead style="font-size: 30px;font-weight: bold">
+            <tr>
+                <td colspan="6">职位信息</td>
+            </tr>
+            </thead>
+            <tr>
+                <th>职位名称</th>
+                <td><input type="text" name="job_name" value=""></td>
+                <th>工作地点</th>
+                <td><input type="text" name="job_address" value=""></td>
+                <th>学历</th>
+                <td><select name="education" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block" style="text-align-last: center">
+                        <option value="0">---大专---</option>
+                        <option value="1">---本科---</option>
+                        <option value="2">---硕士---</option>
+                        <option value="3">---博士---</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <th>薪资</th>
+                <td><input type="text" name="pay" value="" placeholder="例：10K，200~250"></td>
+                <th>岗位详情</th>
+                <td><textarea name="job_descript" placeholder="岗位详情/职责(可选填,以分号间隔)"
+                                  class="form-control form-control-user"></textarea></td>
+                <th>任职要求</th>
+                <td><textarea name="demand" placeholder="任职要求(以分号间隔)" class="form-control form-control-user"></textarea></td>
+            </tr>
+            <tr>
+               <th>工作时间</th>
+                <td><textarea name="work_time" placeholder="工作时间(例：周一至周五8:00~17:00)"
+                                  class="form-control form-control-user"></textarea></td>
+                <th>标签</th>
+                <td><textarea name="job_label" placeholder="标签(可写该职位的特点,以分号间隔)"
+                                  class="form-control form-control-user"></textarea></td>
+                <th>城市</th>
+                <td>
+                <select name="data_city" class="btn btn-warning  btn-primary dropdown-toggle btn-user btn-block" style="text-align-last: center">
+                    <option>---请选择发布职位所在城市---</option>
+                    {% for i in city %}
+                        <option value="{{ i.id }}">---{{ i.name }}---</option>
+                    {% endfor %}
+                </select>
+                <p>如果列表中没有您想选择的城市，您可以填写在下面的输入框内：</p>
+                <input type="text" name="city" value="" placeholder="发布职位所在城市">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align: center">
+                    <input class="btn btn-primary " type="submit" value="发布职位">
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
